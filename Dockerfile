@@ -7,18 +7,18 @@ ENV DEBIAN_FRONTEND=noninteractive
 #--------------------------------
 
 #define la zona horaria y el lenguaje del sistema
-ENV TZ=America/Tijuana
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
-ENV LANGUAGE=es_ES.UTF-8
-ENV LANG=es_ES.UTF-8
-ENV LC_ALL=es_ES.UTF-8
-
 RUN apt-get update && \
     apt-get install -y locales locales-all
 
-RUN locale-gen es_ES && \
-    locale-gen es_ES.UTF-8 && \
+ENV TZ=America/Tijuana
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+ENV LANGUAGE=es_MX.UTF-8
+ENV LANG=es_MX.UTF-8
+ENV LC_ALL=es_ES.UTF-8
+
+RUN locale-gen es_MX && \
+    locale-gen es_MX.UTF-8 && \
     update-locale
 
 
