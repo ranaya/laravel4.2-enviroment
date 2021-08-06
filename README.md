@@ -12,7 +12,7 @@ docker exec -it IdContainer bash
 ```bash
 composer install
 ```
-## Ready the server, you can access through port 8000
+## Ready the server, you can access through port 80 or modify to worked in port 8000
 
 ### Note
 #### There may be problems with folder permissions on unix, you must give permissions to /vendor, /app/storage

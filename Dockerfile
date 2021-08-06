@@ -6,9 +6,23 @@ LABEL Name=laravel4.2 Version=1.0.2
 ENV DEBIAN_FRONTEND=noninteractive
 #--------------------------------
 
-#instalar apache y php
-RUN apt-get update
+#define la zona horaria y el lenguaje del sistema
+ENV TZ=America/Tijuana
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+ENV LANGUAGE=es_ES.UTF-8
+ENV LANG=es_ES.UTF-8
+ENV LC_ALL=es_ES.UTF-8
+
+RUN apt-get update && \
+    apt-get install -y locales locales-all
+
+RUN locale-gen es_ES && \
+    locale-gen es_ES.UTF-8 && \
+    update-locale
+
+
+#instalar apache y php
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
@@ -28,7 +42,8 @@ RUN docker-php-ext-install soap
 #herramientas utiles
 RUN apt-get install -y wget && \
     apt-get install -y curl && \
-        apt-get install -y nano
+    apt-get install -y vim && \
+    apt-get install -y cron
 
 #-------------------------
 
@@ -45,11 +60,13 @@ RUN apt-get update && \
     curl -s https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
-RUN apt-get install -y git-core openssl libssl-dev python3
+RUN apt-get install -y git-core openssl libssl-dev python3 
 #----------------------
 
 # Cleanup
-RUN apt-get autoremove -y
+RUN apt-get autoremove -y && \
+    apt-get autoclean && \
+    apt-get clean 
 #---------------------
 
 #configurar proyecto
@@ -69,3 +86,6 @@ ADD 000-default.conf /etc/apache2/sites-enabled
 RUN a2enmod rewrite
 
 WORKDIR /opt/data
+
+ENTRYPOINT ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+

@@ -1,10 +1,31 @@
 version: "3"
 
 services:
-  web:
-    image: kevinvergara92/laravel4.2-enviroment:latest
-    container_name: web_laravel4_2
-    ports:
-            - 80:80
+
+  mysql56:
+    image: mysql:5.6.51
+    container_name: mysql56
+    hostname: mysql56
+    restart: always
     volumes:
-      - .:/opt/data
+      - ${WORKPATH}/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASS}
+      - MYSQL_PASSWORD=${MYSQL_PASS}
+      - MYSQL_DATABASE=${MYSQL_DB}
+      - MYSQL_USER=${MYSQL_USR}
+
+  web:
+    links:
+      - "mysql56"
+    image: ranay4/pdfs:0.02
+    container_name: servicios
+    hostname: ${HOST_NAME}
+    environment:
+      - TZ=America/Tijuana
+    ports:
+      - 80:80
+    volumes:
+      - ${WORKPATH}/html:/opt/data
+      - ${WORKPATH}/Cron:/opt/Cron
+
