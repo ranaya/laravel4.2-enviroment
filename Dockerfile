@@ -1,6 +1,6 @@
 FROM php:5.6-apache
 
-LABEL Name=laravel4.2 Version=1.0.1
+LABEL Name=laravel4.2 Version=1.0.2
 
 #hacer que la consola no sea interactiva
 ENV DEBIAN_FRONTEND=noninteractive
@@ -37,7 +37,7 @@ RUN echo "memory_limit=-1" > /usr/local/etc/php/conf.d/memory-limit.ini
 #---------------------------------------------------------------------
 
 # limite de archivos
-RUN echo "file_uploads = On \n memory_limit = 64M \n upload_max_filesize = 64M \n post_max_size = 64M \n max_execution_time = 600" > /usr/local/etc/php/conf.d/uploads.ini
+RUN echo "file_uploads = On \n memory_limit = 100M \n upload_max_filesize = 100M \n post_max_size = 100M \n max_execution_time = 600" > /usr/local/etc/php/conf.d/uploads.ini
 #---------------------------------------------------------------------------
 
 #composer, git y node
@@ -59,7 +59,7 @@ ENV APP_HOME /var/www/html
 
 RUN mkdir -p /opt/data/public && \
     rm -r /var/www/html && \
-    ln -s /opt/data/public $APP_HOME
+    ln -s /opt/data $APP_HOME
 
 #--------traer config de apache--------
 RUN rm /etc/apache2/sites-enabled/000-default.conf

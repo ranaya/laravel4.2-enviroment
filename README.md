@@ -2,7 +2,7 @@
 
 ### 1.- Create container with system
 ```bash
-docker run -d --rm -p 8000:80 -v /proyect:/opt/data kevinvegara92/laravel4.2-enviroment:latest
+docker run -d --rm -p 80:80 -v /proyect:/opt/data ranaya/laravel4.2-enviroment:latest
 ```
 ### 2.- Enter the container
 ```bash
@@ -25,10 +25,10 @@ version: "3"
 
 services:
   web:
-    image: kevinvergara92/laravel4.2-enviroment:latest
+    image: ranaya/laravel4.2-enviroment:latest
     container_name: web_laravel4_2
     ports:
-      - 8000:80
+      - 80:80
     volumes:
       - .:/opt/data
 ```
